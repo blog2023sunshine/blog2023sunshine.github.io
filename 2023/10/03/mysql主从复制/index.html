@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>Hexo</title>
+    <title>mysql主从复制 | Hexo</title>
     <meta name="author" content="John Doe" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -36,7 +36,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -146,32 +148,11 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div id="home-background" ref="homeBackground" data-images="/images/background.jpg"></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>Hexo</h1>
-                <h3></h3>
-                <h5></h5>
-            </div>
-        </span>
+            <div class="article">
+    <div>
+        <h1>mysql主从复制</h1>
     </div>
-</div>
-<div id="home-posts-wrap" true ref="homePostsWrap">
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2023/10/03/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">
-        <h2 class="post-title">mysql主从复制</h2>
-    </a>
-    <div class="category-and-date">
-        
+    <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
@@ -181,10 +162,9 @@
         
         
     </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h2 id="一-主节点，从节点安装docker和docker-compose"><a href="#一-主节点，从节点安装docker和docker-compose" class="headerlink" title="一.主节点，从节点安装docker和docker-compose"></a>一.主节点，从节点安装docker和docker-compose</h2><h2 id="二-mysql主节点配置"><a href="#二-mysql主节点配置" class="headerlink" title="二.mysql主节点配置"></a>二.mysql主节点配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /workspace/mysql</span><br><span class="line"><span class="built_in">cd</span> /workspace/mysql/</span><br><span class="line"></span><br><span class="line">[root@mysql1 mysql]<span class="comment"># vi docker-compose.yml</span></span><br><span class="line">version: <span class="string">&#x27;3.1&#x27;</span></span><br><span class="line">services:</span><br><span class="line"> mysql:</span><br><span class="line">  container_name: mysql</span><br><span class="line">  image: mysql</span><br><span class="line">  environment:</span><br><span class="line">   MYSQL_ROOT_PASSWORD: root</span><br><span class="line">  ports:</span><br><span class="line">   - 3306:3306</span><br><span class="line">  volumes:</span><br><span class="line">   - ./conf:/etc/mysql/conf.d</span><br></pre></td></tr></table></figure>
+    
+    <div class="content" v-pre>
+        <h2 id="一-主节点，从节点安装docker和docker-compose"><a href="#一-主节点，从节点安装docker和docker-compose" class="headerlink" title="一.主节点，从节点安装docker和docker-compose"></a>一.主节点，从节点安装docker和docker-compose</h2><h2 id="二-mysql主节点配置"><a href="#二-mysql主节点配置" class="headerlink" title="二.mysql主节点配置"></a>二.mysql主节点配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p /workspace/mysql</span><br><span class="line"><span class="built_in">cd</span> /workspace/mysql/</span><br><span class="line"></span><br><span class="line">[root@mysql1 mysql]<span class="comment"># vi docker-compose.yml</span></span><br><span class="line">version: <span class="string">&#x27;3.1&#x27;</span></span><br><span class="line">services:</span><br><span class="line"> mysql:</span><br><span class="line">  container_name: mysql</span><br><span class="line">  image: mysql</span><br><span class="line">  environment:</span><br><span class="line">   MYSQL_ROOT_PASSWORD: root</span><br><span class="line">  ports:</span><br><span class="line">   - 3306:3306</span><br><span class="line">  volumes:</span><br><span class="line">   - ./conf:/etc/mysql/conf.d</span><br></pre></td></tr></table></figure>
 
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d <span class="comment">#启动容器</span></span><br></pre></td></tr></table></figure>
@@ -207,131 +187,13 @@
 
 <p>验证，使用hedisql软件打开两个数据库， 主机的新建数据库操作可以同步到从机</p>
 
-            
-        </div>
     </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2023/10/03/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/10/03/zabbix%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E5%A4%9F%E5%90%8E%E7%9A%84%E6%B8%85%E7%90%86/">
-        <h2 class="post-title">zabbix服务器硬盘空间不够后的清理</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/10/3
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>适用于zabbix数据库占用过大导致的硬盘空间不足</p>
-<h3 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop zabbix-server <span class="comment">#先停止服务，大概花费1分钟</span></span><br><span class="line"><span class="built_in">sleep</span> 120</span><br><span class="line">mysql -u root -p <span class="comment">#进入数据库</span></span><br><span class="line">mysql&gt; use zabbix;</span><br><span class="line">mysql&gt; <span class="built_in">truncate</span> table history_unit;</span><br><span class="line">mysql&gt; <span class="built_in">truncate</span> table history_unit;</span><br><span class="line">mysql&gt; ALTER TABLE zabbix.history_unit ENGINE=<span class="string">&#x27;InnoDB&#x27;</span>;</span><br><span class="line">mysql&gt; <span class="built_in">truncate</span> table history_str;</span><br><span class="line">mysql&gt; ALTER TABLE zabbix.history_str ENGINE=<span class="string">&#x27;InnoDB&#x27;</span>;</span><br><span class="line">mysql&gt; <span class="built_in">truncate</span> table trends;</span><br><span class="line">mysql&gt; ALTER TABLE zabbix.trends ENGINE=<span class="string">&#x27;InnoDB&#x27;</span>;</span><br><span class="line">mysql&gt; quit;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">systemctl restart zabbix-server</span><br></pre></td></tr></table></figure>
-
-
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2023/10/03/zabbix%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E5%A4%9F%E5%90%8E%E7%9A%84%E6%B8%85%E7%90%86/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2023/10/03/hello-world/">
-        <h2 class="post-title">Hello World</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2023/10/3
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2023/10/03/hello-world/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
     
-    <span class="current">1</span>
     
     
     
     
-</div>
-
-    </div>
     
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/avatar.jpg" alt="avatar" />
-        </div>
-        <div class="name">John Doe</div>
-        <div class="description">
-            <p>Description<br>…</p>
-
-        </div>
-        
-        
-        <div class="friend-links">
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://argvchs.github.io">Argvchs</a>
-            </div>
-            
-        </div>
-        
-    </div>
-</div>
-
-    </div>
     
 </div>
 
@@ -363,6 +225,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
